@@ -15,4 +15,4 @@ when board start:
 -After thet board wait to push user button. 
 - And start some LEDs effects. 
 - When it ended board wait to push Joystick buttons for all time
-end :)
+- end :)
