@@ -63,7 +63,7 @@ bool Status_JOY_D = 0;    // variable to check JOY_D_button push or not
 bool Status_JOY_CTR = 1;  // variable to check JOY_CTR_button push or not
 bool Status_sett = 1;     // variable to wait for JOY_*_button push
 
-int Delay_JOY;            // value to Delay Blink Features when pushed JOY_*_button
+uint32_t Delay_JOY;       // value to Delay Blink Features when pushed JOY_*_button
 
 
 /* USER CODE END PV */
@@ -74,10 +74,95 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
+void blink1_func(void);
+void blink2_func(void);
+void blink3_func(void);
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+//-------------------------------------------------------------------------------------------------------------
+void blink1_func()
+{
+  for(int i=0; i<=4; i++)
+	 {
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET); // Turn on LED3_Orange
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET); // Turn on LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn on LED6_Blue
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn on LED4_Green
+	  HAL_Delay(Delay_JOY);                                         // Delay 1s
 
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET); // Turn off LED6_Blue
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET); // Turn off LED4_Green
+	  HAL_Delay(Delay_JOY);                                           // Delay 1s
+
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
+	  HAL_Delay(Delay_JOY);
+	 }
+}
+//-------------------------------------------------------------------------------------------------------------
+void blink2_func()
+{
+  for(int i=0; i<=4; i++)
+	 {
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn on LED3_Orange
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET); // Turn on LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn on LED6_Blue
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET); // Turn on LED4_Green
+	  HAL_Delay(Delay_JOY);                                         // Delay 1s
+
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET); // Turn off LED3_Orange
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET); // Turn off LED6_Blue
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	  HAL_Delay(Delay_JOY);                                           // Delay 1s
+
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
+	  HAL_Delay(Delay_JOY);
+	 }
+}
+//-------------------------------------------------------------------------------------------------------------
+void blink3_func()
+{
+  for(int i=0; i<=4; i++)
+	 {
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET); // Turn on LED3_Orange
+	  HAL_Delay(Delay_JOY);
+
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET); // Turn on LED5_Red
+	  HAL_Delay(Delay_JOY);
+
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn on LED3_Orange
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET); // Turn on LED6_Blue
+	  HAL_Delay(Delay_JOY);
+
+
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn on LED5_Red
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET); // Turn on LED4_Green
+	  HAL_Delay(Delay_JOY);                                         // Delay 1s
+
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn on LED6_Blue
+	  HAL_Delay(Delay_JOY);
+
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn on LED4_Green
+	  HAL_Delay(Delay_JOY);
+
+	  HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	  HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	  HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	  HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
+	  HAL_Delay(Delay_JOY);
+	 }
+}
+//-------------------------------------------------------------------------------------------------------------
 /* USER CODE END 0 */
 
 /**
@@ -238,6 +323,11 @@ int main(void)
      }
 //---- END TogglePin Function ---------------------------------------------------------------------
 
+//---- Blink Function with Delay Values -----------------------------------------------------------------------
+blink1_func();
+blink2_func();
+blink3_func();
+//---- END Blink Function with Delay Values -------------------------------------------------------------------
 
   /* USER CODE END 2 */
 
