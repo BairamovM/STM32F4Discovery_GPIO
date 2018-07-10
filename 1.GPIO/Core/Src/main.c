@@ -55,6 +55,17 @@
 
 bool Status_user_btn = 1; // variable to check user_button push or not
 
+bool Status_JOY_A = 0;    // variable to check JOY_A_button push or not
+bool Status_JOY_B = 0;    // variable to check JOY_B_button push or not
+bool Status_JOY_C = 0;    // variable to check JOY_C_button push or not
+bool Status_JOY_D = 0;    // variable to check JOY_D_button push or not
+
+bool Status_JOY_CTR = 1;  // variable to check JOY_CTR_button push or not
+bool Status_sett = 1;     // variable to wait for JOY_*_button push
+
+int Delay_JOY;            // value to Delay Blink Features when pushed JOY_*_button
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -105,16 +116,93 @@ int main(void)
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET); // Turn on LED4_Green
   HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET); // Turn on LED5_Red
   HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET); // Turn on LED6_Blue
-  HAL_Delay(1000);                                          // Delay 500 ms
-
+  HAL_Delay(1000);                                         // Delay 1s
 
   HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
   HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
   HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
-  HAL_Delay(500);
-
+  HAL_Delay(1000);                                           // Delay 1s
 //---- END Test LEDS ------------------------------------------------------------------------------
+
+//---- Delay settings for Blink Features -------------------------------------------------------------------------
+  while(Status_JOY_CTR) // Main wait for JOY_*_button push
+       {
+	    while(Status_sett) // wait for JOY_*_button push (ABCD)
+             {
+                 /* A - LD4 */   // This Function check if button JOY_A pushed or not
+	          if(HAL_GPIO_ReadPin(JOY_A_GPIO_Port, JOY_A_Pin) == GPIO_PIN_RESET)
+	            {
+	              HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET);   // Turn on LED4_Green
+	              HAL_Delay(250);                                            // Delay 250ms
+	              HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	              Delay_JOY = 250;  // Value 250ms for All Blink Features
+	              Status_JOY_A = 1;   // button JOY_A pushed
+	              Status_sett = 0;    // button JOY_A pushed
+	            }
+
+                 /* B - LD3 */   // This Function check if button JOY_B pushed or not
+	          if(HAL_GPIO_ReadPin(JOY_B_GPIO_Port, JOY_B_Pin) == GPIO_PIN_RESET)
+	            {
+	              HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);   // Turn on LED3_Orange
+	              HAL_Delay(500);                                            // Delay 500ms
+	              HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	              Delay_JOY = 500; // Value 500ms for All Blink Features
+	              Status_JOY_B = 1;  // button JOY_B pushed
+	              Status_sett = 0;   // button JOY_B pushed
+	            }
+
+                 /* C - LD6 */   // This Function check if button JOY_C pushed or not
+	          if(HAL_GPIO_ReadPin(JOY_C_GPIO_Port, JOY_C_Pin) == GPIO_PIN_RESET)
+	            {
+	              HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET);   // Turn on LED6_Blue
+	              HAL_Delay(750);                                            // Delay 500ms
+	              HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
+	              Delay_JOY = 750; // Value 750ms for All Blink Features
+	              Status_JOY_C = 1;  // button JOY_C pushed
+	              Status_sett = 0;   // button JOY_C pushed
+	            }
+
+                 /* D - LD5 */   // This Function check if button JOY_D pushed or not
+	          if(HAL_GPIO_ReadPin(JOY_D_GPIO_Port, JOY_D_Pin) == GPIO_PIN_RESET)
+	            {
+	              HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET);   // Turn on LED5_Red
+	              HAL_Delay(1000);                                           // Delay 1s
+	              HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	              Delay_JOY = 1000; // Value 1000ms for All Blink Features
+	              Status_JOY_D = 1;   // button JOY_D pushed
+	              Status_sett = 0;    // button JOY_D pushed
+	            }
+             }
+
+	         while(Status_JOY_CTR) // wait for JOY_CTR_button push
+                  {
+	    	        /* PRESS - LD4 LD3 LD6 LD5 */  // This Function check if button JOY_CTR pushed or not
+	    	        if(HAL_GPIO_ReadPin(JOY_CTR_GPIO_Port, JOY_CTR_Pin) == GPIO_PIN_RESET)
+                      {
+	    	            HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET); // Turn on LED3_Orange
+	    	            HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET); // Turn on LED4_Green
+	    	            HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_SET); // Turn on LED5_Red
+	    	            HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_SET); // Turn on LED6_Blue
+	    	            HAL_Delay(100); // Delay 100ms
+
+	    	            HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET); // Turn off LED3_Orange
+	    	            HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET); // Turn off LED4_Green
+	    	            HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET); // Turn off LED5_Red
+	    	            HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET); // Turn off LED6_Blue
+
+	    	               // check if one of then buttons JOY_* pushed
+	    	               // If pushed - it can confirm Delay Blink settings
+	    	            if ((Status_JOY_A || Status_JOY_B || Status_JOY_C || Status_JOY_D) ==1)
+	    	               {
+	    	                Status_JOY_CTR = 0; // button JOY_CTR pushed and All settings for
+	    	               	 	    	        // Blink Features ready
+	    	               }
+                      }
+                   }
+       }
+
+//---- END Delay settings for Blink Features ----------------------------------------------------------------------
 
 //---- Test USER_BUTTON ---------------------------------------------------------------------------
   while(Status_user_btn) //wait for pushed the USER_BUTTON
